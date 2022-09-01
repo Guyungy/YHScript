@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         JAVBUS预告片
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.5
 // @description  javbus自动显示预告片
 // @author       jibi
 // @include      *://www.*bus*/*
