@@ -70,6 +70,12 @@
 
 
   const i18n = new Map([
+    // 新增功能
+    ['New homepage!', '新主页！'],
+    ['Home', '家'],
+    ['Announcements', '公告'],
+    ['Settings', '设置'],
+
     ['Settings', '设置'],
     ['Get', '获取'],
     ['Quick Search', '快速搜索'],
