@@ -88,6 +88,7 @@
     ['Most Downloaded','最多下载'],
     ['Most Liked','最多收藏'],
     ['Most Discussed','最多讨论'],
+    ['Most Bookmarks','最多收藏'],
     ['Newest','最新的'],
     //时间筛选
     ['Day', '日'],
@@ -135,6 +136,39 @@
     ['Stats','统计'],
     ['Published','已发布'],
 
+    // 其他
+    ['Featured','特色'],
+
+    //模型页
+    ['Download','下载'],
+    ['Like','我超爱'],
+    ['Share','分享'],
+
+    ['Details','详情'],
+    ['Base 模式l','底模'],
+    ['Type','类型'],
+    ['Downloads','下载量'],
+    ['Uploaded','上传时间'],
+    ['Updated','更新'],
+    ['Hash','哈希'],
+
+    ['Add Review','添加评论'],
+    ['Reviews','评论'],
+    ['See Reviews','查看评论'],
+    ['Hash','哈希'],
+    ['Hash','哈希'],
+
+    ['File','文件'],
+    ['Verified','验证于'],
+    ['About this version','版本信息'],
+    ['Discussion','讨论'],
+    ['Add Comment','讲俩句'],
+    ['Gallery','画廊'],
+    ['Add Post','发表文章'],
+    ['Create Image Post','发表图片帖'],
+    
+
+
       // 月份
       ['Jan', '1月'],
       ['Feb', '2月'],
@@ -172,6 +206,7 @@
       ['about 21 hours ago', '大约21小时前'],
       ['about 22 hours ago', '大约22小时前'],
       ['about 23 hours ago', '大约23小时前'],
+      ['days ago', '天前'],
 
   ])
 
