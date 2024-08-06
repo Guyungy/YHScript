@@ -21,6 +21,7 @@ prepend:
   - 'DOMAIN,ic.adobe.io,🚧 屏蔽访问'
   - 'DOMAIN,sstats.adobe.com,🚧 屏蔽访问'
   - 'DOMAIN,guzg78logz.adobe.io,🚧 屏蔽访问'
+  - 'DOMAIN,taobao.com,DIRECT'
 append:
   - 'DOMAIN,chatgpt.com,🌍 国外媒体'
 delete:
