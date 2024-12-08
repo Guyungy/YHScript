@@ -4,9 +4,11 @@
 // @match       https://space.bilibili.com/*
 // @grant       none
 // @version     1.0
-// @author      -
-// @description 2022/9/1 17:40:15
+// @license     All Rights Reserved
+// @author      BbYrihyR
+// @description 批量取消哔哩哔哩个人空间页面上所有UP主的关注，自动化操作减少用户手动点击的繁琐过程。
 // ==/UserScript==
+
 
 var ms = 250; // 暂停250毫秒
 var ii = 0;
