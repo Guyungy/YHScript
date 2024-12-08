@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Javbus在线播放
 // @namespace    Violentmonkey Scripts
-// @version      1.0
+// @version      2.0
 // @description  在磁力链接下方增加【在线播放】地址
 // @match        https://www.javbus.com/*
 // @grant        GM_xmlhttpRequest
