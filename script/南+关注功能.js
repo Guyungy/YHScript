@@ -2,8 +2,8 @@
 // @name         南+关注功能
 // @namespace    http://tampermonkey.net/
 // @license      MIT
-// @version      1.9
-// @description  添加关注功能。优化按钮样式和位置，使用更美观的浮动菜单，支持导出导入数据，显示最新主题信息。
+// @version      2.0
+// @description  添加关注功能。优化按钮样式和位置，使用更美观的浮动菜单，支持导出导入数据，显示最新主题信息，并记录作者名字。
 // @author       You
 // @match        https://www.level-plus.net/*
 // @grant        GM_setValue
@@ -18,27 +18,33 @@
 
   const FOLLOW_KEY_PREFIX = 'follow_';
 
-  const getFollowStatus = (uid) => GM_getValue(FOLLOW_KEY_PREFIX + uid, false);
-  const setFollowStatus = (uid, status) => GM_setValue(FOLLOW_KEY_PREFIX + uid, status);
+  const getFollowStatus = (uid) => GM_getValue(FOLLOW_KEY_PREFIX + uid, null);
+  const setFollowStatus = (uid, name, status) => GM_setValue(FOLLOW_KEY_PREFIX + uid, { name, status });
   const getFollowingAuthors = () => {
       const allValues = GM_listValues();
       return allValues
-          .filter(key => key.startsWith(FOLLOW_KEY_PREFIX) && GM_getValue(key))
-          .map(key => key.replace(FOLLOW_KEY_PREFIX, ''));
+          .filter(key => key.startsWith(FOLLOW_KEY_PREFIX))
+          .map(key => {
+              const value = GM_getValue(key);
+              return { uid: key.replace(FOLLOW_KEY_PREFIX, ''), name: value.name, status: value.status };
+          })
+          .filter(author => author.status);
   };
 
-  const createFollowButton = (userInfo, uid) => {
-      const isFollowing = getFollowStatus(uid);
+  const createFollowButton = (userInfo, uid, name) => {
+      const followData = getFollowStatus(uid);
+      const isFollowing = followData ? followData.status : false;
       const button = document.createElement('div');
       button.textContent = isFollowing ? '✔ 关注中' : '+ 关注';
       button.className = 'custom-follow-button';
-      button.addEventListener('click', () => toggleFollow(uid, button));
+      button.addEventListener('click', () => toggleFollow(uid, name, button));
       return button;
   };
 
-  const toggleFollow = (uid, button) => {
-      const newStatus = !getFollowStatus(uid);
-      setFollowStatus(uid, newStatus);
+  const toggleFollow = (uid, name, button) => {
+      const followData = getFollowStatus(uid);
+      const newStatus = !(followData ? followData.status : false);
+      setFollowStatus(uid, name, newStatus);
       button.textContent = newStatus ? '✔ 关注中' : '+ 关注';
       updateFloatingMenu();
   };
@@ -47,12 +53,14 @@
       const userInfos = document.querySelectorAll('table.js-post .r_two');
       userInfos.forEach(userInfo => {
           const uidElement = userInfo.querySelector('.f12');
+          const nameElement = userInfo.querySelector('a[target="_blank"] strong');
+
           const uid = uidElement ? uidElement.innerText.trim() : null;
-          if (!uid) return;
+          const name = nameElement ? nameElement.innerText.trim() : '未知';
 
-          if (userInfo.querySelector('.custom-follow-button')) return;
+          if (!uid || userInfo.querySelector('.custom-follow-button')) return;
 
-          const followButton = createFollowButton(userInfo, uid);
+          const followButton = createFollowButton(userInfo, uid, name);
           followButton.style.marginLeft = '10px';
           userInfo.appendChild(followButton);
       });
@@ -99,13 +107,13 @@
           const list = document.createElement('ul');
           list.className = 'author-list';
 
-          followingAuthors.forEach(uid => {
+          followingAuthors.forEach(({ uid, name }) => {
               const listItem = document.createElement('li');
               listItem.className = 'author-item';
 
               const authorInfoDiv = document.createElement('div');
               authorInfoDiv.className = 'author-info';
-              authorInfoDiv.textContent = `UID: ${uid}`;
+              authorInfoDiv.textContent = `UID: ${uid} | 昵称: ${name}`;
               listItem.appendChild(authorInfoDiv);
 
               const topicInfoDiv = document.createElement('div');
@@ -119,7 +127,7 @@
               cancelButton.textContent = '取消关注';
               cancelButton.className = 'cancel-button';
               cancelButton.addEventListener('click', () => {
-                  setFollowStatus(uid, false);
+                  setFollowStatus(uid, name, false);
                   updateFloatingMenu();
               });
               listItem.appendChild(cancelButton);
@@ -209,7 +217,7 @@
               try {
                   const importedAuthors = JSON.parse(reader.result);
                   if (Array.isArray(importedAuthors)) {
-                      importedAuthors.forEach(uid => setFollowStatus(uid, true));
+                      importedAuthors.forEach(({ uid, name }) => setFollowStatus(uid, name, true));
                       alert('导入成功！');
                       updateFloatingMenu();
                   } else {
