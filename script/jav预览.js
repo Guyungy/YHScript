@@ -1,10 +1,11 @@
 // ==UserScript==
-// @name         JavLibrary 识别码提取与DMM视频播放
+// @name         JavLibrary & JavBus 识别码提取与DMM视频播放
 // @namespace    http://tampermonkey.net/
-// @version      2.1
-// @description  从JavLibrary页面识别并提取识别码，并插入DMM视频播放器（支持自动播放）
+// @version      2.3
+// @description  从JavLibrary和JavBus页面识别并提取识别码，并插入DMM视频播放器（支持自动播放）
 // @author       YourName
 // @match        https://www.javlibrary.com/cn/?v=*
+// @match        https://www.javbus.com/*
 // @grant        none
 // ==/UserScript==
 
@@ -14,6 +15,11 @@
     function getText(selector) {
         let element = document.querySelector(selector);
         return element ? element.innerText.trim() : '未知';
+    }
+
+    function extractIDFromURL() {
+        let match = window.location.pathname.match(/\/([A-Z0-9-]+)$/i);
+        return match ? match[1] : '未知';
     }
 
     function formatDMMID(videoID) {
@@ -86,7 +92,13 @@
         document.body.insertBefore(playerDiv, document.body.firstChild);
     }
 
-    let videoID = getText('#video_id .text');
+    let videoID;
+    if (window.location.hostname.includes('javlibrary.com')) {
+        videoID = getText('#video_id .text');
+    } else if (window.location.hostname.includes('javbus.com')) {
+        videoID = extractIDFromURL();
+    }
+    
     if (videoID !== '未知') {
         let videoURLs = generateDMMLinks(videoID);
         console.log('识别码:', videoID);
