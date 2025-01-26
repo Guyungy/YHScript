@@ -9,8 +9,7 @@
 // @description          replace thumbnails of javbus,javdb,javlibrary and avmoo with source images
 // @description:zh-CN    javbus,javdb,javlibrary,avmoo替换封面为源图
 
-// @include      *javbus.com/*
-// @include      *javdb.com/*
+// @include      *javbus.com/
 // @include      *avmoo.cyou/*
 // @include      *javlibrary.com/*
 // @include      /^.*(javbus|busjav|busfan|fanbus|buscdn|cdnbus|dmmsee|seedmm|busdmm|dmmbus|javsee|seejav)\..*$/
@@ -21,7 +20,6 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM_getValue
 // @grant        GM_setValue
-// @grant        GM_download
 // @grant        GM_setClipboard
 // @connect *
 
